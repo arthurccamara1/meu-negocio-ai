@@ -1,4 +1,4 @@
-O Que Criar: Um MVP, o produto mínimo que prova a tese do negócio. No exemplo, a tese é que as pessoas assinam, e o MVP tem:
+<img width="881" height="459" alt="image" src="https://github.com/user-attachments/assets/20468104-4aa3-49ab-b9d4-3f0db191f501" />O Que Criar: Um MVP, o produto mínimo que prova a tese do negócio. No exemplo, a tese é que as pessoas assinam, e o MVP tem:
 
 Uma landing page que explica a proposta: https://aquarius-lanches.netlify.app
 
@@ -13,8 +13,7 @@ Um formulário para a pessoa montar o próprio plano:
 
 Um painel de administração com leads, clientes, entregas e lembretes. 
 
-
-
+<img width="881" height="459" alt="image" src="https://github.com/user-attachments/assets/f0b9634f-fe93-4ba3-b273-bef4cfc4a3de" />
 
 
 O contato pelo WhatsApp, onde a venda se fecha: 
