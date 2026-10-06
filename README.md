@@ -2,16 +2,22 @@ O Que Criar: Um MVP, o produto mínimo que prova a tese do negócio. No exemplo,
 
 Uma landing page que explica a proposta: https://aquarius-lanches.netlify.app
 
+Home do app:
+
+<img width="1430" height="881" alt="image" src="https://github.com/user-attachments/assets/cfb6a795-39c7-4d69-a0fa-4d64f3d83e03" />
+
+
 Um formulário para a pessoa montar o próprio plano: 
 
 <img width="1408" height="883" alt="image" src="https://github.com/user-attachments/assets/7f5997ba-3a45-4508-a00f-90fd3a3bf592" />
 
+Um painel de administração com leads, clientes, entregas e lembretes. 
+
+
+
+
 
 O contato pelo WhatsApp, onde a venda se fecha: 
-
-<img width="1430" height="881" alt="image" src="https://github.com/user-attachments/assets/cfb6a795-39c7-4d69-a0fa-4d64f3d83e03" />
-
-Um painel de administração com leads, clientes, entregas e lembretes. 
 
 <img width="1439" height="556" alt="image" src="https://github.com/user-attachments/assets/3cad14c5-8d92-4cca-a8a7-9fc1170cc838" />
 
@@ -19,12 +25,6 @@ Um painel de administração com leads, clientes, entregas e lembretes.
 --
 
 Projeto: Sistema de pedidos e cardápio do Food Truck Aquárius Lanches
-
-Escolha a dor. Liste problemas que você vive e fique com um. O Expert comparou a assinatura de ração com um organizador de séries;
-Valide com o ChatGPT. Estime o mercado (TAM, SAM e SOM), monte o Business Model Canvas e liste as hipóteses que o MVP precisa testar;
-Escreva o mega prompt. Peça ao ChatGPT um prompt em Markdown com o fluxo do cliente, o painel de administração e as cores. No Lovable, use o back-end do Lovable Cloud, sem banco de dados seu;
-Teste e corrija. Use a aplicação como cliente, liste o que falhou e peça ao ChatGPT um prompt único com as correções. O modo Plan mostra o que o Lovable vai fazer antes de fazer;
-Publique. Rode antes a revisão de segurança do Lovable, e depois leve o código para um repositório seu no GitHub.
 
 1. A Dor Escolhida
 O Problema
