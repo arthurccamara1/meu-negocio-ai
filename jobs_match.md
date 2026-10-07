@@ -28,6 +28,7 @@ Se você ainda está começando, tudo bem. Uma aplicação pequena, no ar e bem 
 
 --
 
+<img width="1236" height="779" alt="image" src="https://github.com/user-attachments/assets/780b4949-d154-41bd-9b30-0d65df44dc3b" />
 
 
 1. O problema que a aplicação resolve
@@ -62,30 +63,68 @@ Paleta obrigatória:
 Telas:
 1. Dashboard de vagas (feed em grid de cards com % de match em anel amarelo,
    botões "Ver Detalhes" outline e "Aplicar" azul sólido);
-2. Página de detalhes da vaga (descrição, requisitos, comparação "Suas habilidades
+
+   <img width="1218" height="780" alt="image" src="https://github.com/user-attachments/assets/ee2140ed-e007-4b5d-85b7-5e4e3fff7a49" />
+
+
+3. Página de detalhes da vaga (descrição, requisitos, comparação "Suas habilidades
    vs. requisitos", CTA "Gerar Currículo ATS para esta Vaga");
-3. Workspace do currículo (split screen: editor + sugestões de IA à esquerda,
+
+   <img width="1149" height="729" alt="image" src="https://github.com/user-attachments/assets/c6dfebb9-4887-4d57-b0e5-5d1b66e90ac6" />
+
+<img width="1226" height="781" alt="image" src="https://github.com/user-attachments/assets/a2626eb4-b410-453d-9486-81415dfad44e" />
+
+
+5. Workspace do currículo (split screen: editor + sugestões de IA à esquerda,
    preview em tempo real à direita; botões "Baixar PDF" e "Salvar Versão");
-4. Perfil do usuário (formulários Shadcn: Input, Textarea, Select, DatePicker).
+
+<img width="1214" height="792" alt="image" src="https://github.com/user-attachments/assets/cfe6063f-4975-4529-8f48-562e4b93e4b7" />
+
+   
+7. Perfil do usuário (formulários Shadcn: Input, Textarea, Select, DatePicker).
+
+
+<img width="1228" height="783" alt="image" src="https://github.com/user-attachments/assets/02d83e39-ee6f-4bcb-b9de-974a1ee6735a" />
+
+
+8. Paywall
+
+<img width="1216" height="793" alt="image" src="https://github.com/user-attachments/assets/728baf7f-36e5-485e-950b-27f8449bebfe" />
+
 
 Gere o código inicial completo, focado em UI e estruturação, pronto para renderizar.
 O que mudou até a versão final (e por quê)
 #	Mudança	Por quê
+
 1	O núcleo passou a ser "colar vaga + colar currículo" (era só um feed de vagas). Nova tela Analisar virou a home.	O feed de vagas não resolvia o problema central: o candidato precisava colar os próprios textos para saber o match. O core de 4 passos (colar → analisar → gerar → exportar) é o coração do produto.
+
 2	Análise real em TypeScript puro (src/lib/analysis.ts): extração de palavras-chave da vaga (stopwords PT+EN, frases compostas, frequência ponderada), detecção de presença no currículo (plurais, prefixos, radicais) e score ponderado.	Sem backend, a análise precisa ser determinística e auditável — e nunca pode depender de "achismo".
+
 3	Parser de currículo colado (seções RESUMO/EXPERIÊNCIA/HABILIDADES/FORMAÇÃO/IDIOMAS, bullets, datas, contato).	Para gerar a versão ajustada é preciso entender a estrutura do texto que a pessoa colou.
+
 4	Geração honesta: a versão ajustada só reordena e normaliza o texto do usuário (frases com keywords primeiro, habilidades ordenadas por relevância, seções canônicas ATS). Zero conteúdo inventado.	A regra de ouro. Palavras-chave ausentes aparecem na interface como "não incluídos" — nunca entram no documento.
+
 5	Regra escrita na interface (banner "Nosso compromisso" na home, inline no workspace, rodapé do preview).	O usuário pediu explicitamente: a regra deve estar visível na própria interface.
+
 6	Exportação PDF via @media print com #resume-print (só o currículo é impresso).	Evita dependência de biblioteca de PDF e garante que o arquivo gerado seja idêntico ao preview ATS.
+
 7	Feed movido para /vagas e links de "Aplicar" passaram a levar ao núcleo (/?vaga=id, com pré-preenchimento da vaga).	Toda a jornada converge para o core; o feed virou vitrine, não o destino.
+
 8	Ajustes finos de matching: stopwords de ruído de anúncio (CLT, PJ, benefícios, níveis), plural em frases compostas ("design system" → "design systems"), radical para flexões verbais ("desenvolver" ↔ "desenvolvimento").	Reduzir falsos negativos/positivos e deixar o match mais próximo do que um ATS real faria.
 Evolução posterior (segunda rodada de pedidos)
+
 #	Pedido	Como foi feito
+
 9	Exportar também em .docx e em PDF com download direto	src/lib/exporters/resumeExport.ts com exportPdf() (jsPDF) e exportDocx() (pacote docx), ambos carregados por import() dinâmico (fora do bundle inicial). Botões Baixar PDF, Baixar DOCX e Imprimir no núcleo e no workspace. O conteúdo exportado é exatamente o do preview ATS — nada inventado.
+
 10	Login com confirmação de e-mail pelo Resend, serverless na Vercel	Pasta api/ com auth/request, auth/verify e auth/session: código de 6 dígitos (validade 10 min), tokens stateless assinados por HMAC (AUTH_SECRET) — sem banco. A chave RESEND_API_KEY só existe no servidor. Em dev local, sem chave, o código aparece na tela (Modo desenvolvimento). Middleware no vite.config.ts reaproveita os mesmos handlers. Sessão de 30 dias no localStorage + botão Entrar/Sair no cabeçalho (AuthButton).
+
 11	Dashboard da evolução do match entre as versões	src/lib/matchHistory.ts grava cada análise e cada versão salva em localStorage; a rota /evolucao mostra gráfico de linha SVG (área azul, pontos amarelos), cards de estatística (último, melhor, média, variação desde a 1ª) e tabela com delta por registro.
+
 12	Especialização 100% em Marinha Mercante	Vagas, perfil, sugestões e exemplos reescritos para as carreiras do nicho (marinheiro auxiliar de convés/máquinas, moço, eletricista marítimo, cozinheiro/taifeiro a bordo, condutor de máquinas, contramestre, primeiro emprego); vocabulário de analysis.ts trocado por termos de bordo ("amarração e atracação", "combate a incêndio", "trabalho em altura", "escala 14x14"…); copy de todas as telas, filtros por carreira e rodapé marítimos.
+
 13	SEO + GEO (buscas em IAs)	index.html com title/description/keywords/canonical/OG/Twitter + JSON-LD (WebApplication, FAQPage), shell estático crawlável sem JS, public/robots.txt liberando GPTBot/ClaudeBot/PerplexityBot/etc., public/sitemap.xml, public/llms.txt (contexto factual para IAs) e src/lib/seo.ts (ROUTE_SEO + useSeo) aplicando title/description canônicos por rota.
+
 3. Como a análise funciona (da vaga colada ao currículo ajustado)
 ┌─────────────────────────────┐     ┌─────────────────────────────┐
 │  INPUT 1: descrição da vaga │     │  INPUT 2: currículo (texto)  │
@@ -132,19 +171,31 @@ Evolução posterior (segunda rodada de pedidos)
 Exemplo de uso (textos reais da aplicação — nicho Marinha Mercante):
 
 Vaga colada: Marinheiro Auxiliar de Convés — Navegação Costeira S.A. (Suape · embarcação · escala 14x14): arrumação de convés, amarração e atracação, pintura, rondas, manobras, registro na Marinha Mercante, certificados de sobrevivência e combate a incêndio, NR-35, embarque imediato.
+
 Currículo colado: Lucas Mendes Oliveira — Marinheiro de Convés / Auxiliar de Máquinas, com experiências honestas a bordo, certificados e competências.
+
 Resultado: 84% de match — 20 de 24 palavras-chave encontradas e 4 faltantes (adicional de insalubridade, alimentacao a bordo, costeira…), estas não inseridas no documento.
+
 Versão ajustada gerada: resumo com as frases-chave primeiro, bullets reordenados por relevância, habilidades com os termos da vaga no topo, seções canônicas (RESUMO PROFISSIONAL → EXPERIÊNCIA PROFISSIONAL → HABILIDADES → FORMAÇÃO ACADÊMICA → IDIOMAS), pronta para Baixar PDF (jsPDF) ou Baixar DOCX.
+
 4. Ajustes pedidos depois da primeira geração (e por quê)
+
 "O núcleo é curto e precisa funcionar" — a primeira versão era só um feed de vagas com cards. Pedi para o core ser: colar vaga → colar currículo → match com palavras-chave encontradas/faltantes → versão ajustada exportável. Por quê: sem isso o app era vitrine, não ferramenta.
+
 "A regra vale para a aplicação inteira… e vale trazer a ideia para a sua" — o compromisso de nunca inventar experiência passou a aparecer escrito na interface (banner, inline no workspace, rodapé do preview) e virou invariante do código de geração. Por quê: confiança do candidato é o produto.
+
 Refinamentos de matching — stopwords de ruído de anúncio, plural em frases compostas e radical verbal. Por quê: o match inicial tinha ruído ("lado", "time") e falsos negativos ("desenvolver" não casava com "desenvolvimento").
+
 Layout da linha "Não incluímos" — o flex quebrava o texto em itens separados. Por quê: legibilidade e profissionalismo do documento de mudanças.
 "Quero exportar em .docx e em PDF" — a exportação em PDF passou a baixar o arquivo direto (jsPDF) e o .docx foi adicionado, mantendo o Imprimir como alternativa fiel. Por quê: recrutador de navigação/cozinha pede anexo em Word, e abrir janela de impressão para salvar PDF é atrito.
+
 "Login com e-mail de confirmação pelo Resend" — API serverless stateless (código de 6 dígitos assinado por HMAC), chave só no servidor, fluxo de dev sem chave para testar. Por quê: identidade real sem banco e sem expor segredo.
+
 "Dashboard mostrando a evolução do match entre as versões" — histórico local gravado automaticamente a cada análise/versão + gráfico de linha do tempo em /evolucao. Por quê: provar que o currículo está ficando mais competitivo é a métrica do produto.
+
 "Especializar em Marinha Mercante" (100%) — dados, vocabulário e toda a copy reposicionados para as carreiras de bordo. Por quê: nicho definido pelo usuário como foco exclusivo do app.
 "Preparar para SEO e GEO" — metadados + JSON-LD, shell estático crawlável, robots.txt com robôs de IA permitidos, sitemap, llms.txt e título/ descrição por rota. Por quê: ser encontrado tanto no Google quanto nas buscas dentro de IAs.
+
 5. Endereço da aplicação
 Rodando localmente (desenvolvimento): http://localhost:5173 (npm run dev — Vite, porta 5173; login por e-mail roda em modo desenvolvimento sem chave do Resend).
 Build de produção: npm run build gera dist/ (funções da API em api/ ficam na Vercel; o JS principal ~170 kB gzip, com jsPDF/docx em chunks separados carregados sob demanda).
